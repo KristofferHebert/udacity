@@ -16,11 +16,29 @@ match a character that isn't allowed in this password: /[^A-z0-9\!\@\#\$\%\^\&\*
 /*
 Grabbing a few inputs to help you get started...
  */
-var firstPasswordInput = document.querySelector('#first');
-var secondPasswordInput = document.querySelector('#second');
-var submit = document.querySelector('#submit');
+var firstPasswordInput = document.querySelector('#first')
+var secondPasswordInput = document.querySelector('#second')
+var submit = document.querySelector('#submit')
 
 /*
 You'll probably find this function useful...
- */  
-submit.onclick = function () {};
+ */
+
+
+
+function comparePassword(selector1, selector2){
+    return selector1.value === selector2.value
+}
+
+function handleSubmit(){
+    var bothInputMatch = comparePassword(firstPasswordInput, secondPasswordInput)
+
+    if(!bothInputMatch){
+        return secondPasswordInput.setCustomValidity('Passwords do not match')
+    }
+
+    firstPasswordInput.setCustomValidity('')
+    secondPasswordInput.setCustomValidity('')
+}
+
+submit.onclick = handleSubmit
