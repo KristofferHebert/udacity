@@ -24,21 +24,21 @@ var submit = document.querySelector('#submit')
 You'll probably find this function useful...
  */
 
+function noIllegalCharacters(selector){
+    return selector.value.match(/[^A-z0-9\!\@\#\$\%\^\&\*]/g)
+}
 
-
-function comparePassword(selector1, selector2){
+function passwordsMatch(selector1, selector2){
     return selector1.value === selector2.value
 }
 
 function handleSubmit(){
-    var bothInputMatch = comparePassword(firstPasswordInput, secondPasswordInput)
+    var bothInputMatch = passwordsMatch(firstPasswordInput, secondPasswordInput)
 
     if(!bothInputMatch){
         return secondPasswordInput.setCustomValidity('Passwords do not match')
     }
 
-    firstPasswordInput.setCustomValidity('')
-    secondPasswordInput.setCustomValidity('')
 }
 
 submit.onclick = handleSubmit
