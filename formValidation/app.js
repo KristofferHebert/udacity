@@ -24,6 +24,10 @@ var submit = document.querySelector('#submit')
 You'll probably find this function useful...
  */
 
+function hasIllegalCharacter(value){
+    return (value.match(/[^A-z0-9\!\@\#\$\%\^\&\*]/g)) ? true : false
+ }
+
 function minLength(value){
     return (value.length >= 16) ? true : false
 }
@@ -61,6 +65,7 @@ function validateValue(selector){
     if(!hasASymbol(selector.value)) return selector.setCustomValidity('Password needs to contain a Symbol')
     if(!minLength(selector.value)) return selector.setCustomValidity('Password needs to at least 16 characters long')
     if(!maxLength(selector.value)) return selector.setCustomValidity('Password cannot exceed 100 characters')
+    if(!hasIllegalCharacter(selector.value)) return selector.setCustomValidity('Password cannot contain illegal characters')
 
     return selector.setCustomValidity('')
 
