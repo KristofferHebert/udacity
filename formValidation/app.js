@@ -33,16 +33,17 @@ function passwordsMatch(selector1, selector2){
 }
 
 function hasIllegalChar(value){
-    return (value.match(/[^A-Za-z\!\@\#\$\%\^\&\*]/g)) ? true : false
+    return value.match(/^[A-Za-z0-9\!\@\#\$\%\^\&\*]+$/g) ? true : false
+
 }
 
 function validateValue(selector){
     if(!minLength(selector.value)) return selector.setCustomValidity('Password needs to at least 16 characters long')
     if(!maxLength(selector.value)) return selector.setCustomValidity('Password cannot exceed 100 characters')
-    if(!hasANumber(selector.value)) return selector.setCustomValidity('Password needs to contain a Number')
-    if(!hasAUpperCaseLetter(selector.value)) return selector.setCustomValidity('Password needs to contain a Uppercase Letter')
-    if(!hasALowercaseLetter(selector.value)) return selector.setCustomValidity('Password needs to contain a Lowercase Letter')
     if(!hasASymbol(selector.value)) return selector.setCustomValidity('Password needs to contain a Symbol')
+    if(!hasANumber(selector.value)) return selector.setCustomValidity('Password needs to contain a Number')
+    if(!hasALowercaseLetter(selector.value)) return selector.setCustomValidity('Password needs to contain a Lowercase Letter')
+    if(!hasAUpperCaseLetter(selector.value)) return selector.setCustomValidity('Password needs to contain a Uppercase Letter')
     if(!hasIllegalChar(selector.value)) return selector.setCustomValidity('Password cannot contain a illegal character')
 
     return selector.setCustomValidity('')
