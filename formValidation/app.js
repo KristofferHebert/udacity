@@ -25,7 +25,7 @@ You'll probably find this function useful...
  */
 
 function hasIllegalCharacter(value){
-    return (value.match(/[^A-z0-9\!\@\#\$\%\^\&\*]/g)) ? true : false
+    return (value.match(/[^A-Za-z\!\@\#\$\%\^\&\*]/g)) ? true : false
  }
 
 function minLength(value){
