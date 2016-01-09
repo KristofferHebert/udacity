@@ -27,6 +27,7 @@ const Input = React.createClass({
                             onChange={this.props.onChange || this.onChange}
                             />
                     </label>
+                    <InputMessage />
                 </div>
             )
         }

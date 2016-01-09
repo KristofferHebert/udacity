@@ -1,4 +1,4 @@
-import Input from './components/input.jsx'
+import Input from './components/input/input.jsx'
 
 const Checkout = React.createClass({})
 
