@@ -1,0 +1,83 @@
+body {
+    font-size: 100%;
+    font-family: arial, san-serif;
+}
+
+input {
+    margin-bottom: 1.4em;
+    width: 100%;
+    display:block;
+    padding: .6em;
+    border: 1px solid #ddd;
+}
+
+label span{
+    display:block;
+    margin-bottom: .4em;
+}
+
+/* Button */
+
+.btn {
+    text-transform:uppercase;
+    padding: .8em;
+    font-weight: bold;
+}
+
+.btn-primary {
+    color: white;
+    background: lightblue;
+}
+
+/* Grid */
+
+.wrapper {
+    width: 90%;
+    max-width: 764px;
+    min-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.row, .cf:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: ' ';
+     clear: both;
+     height: 0;
+ }
+
+.quarter, .third, .half, .two-thirds, .three-fourths {
+    float: left;
+    padding-left: .4em;
+    box-sizing: content-box;
+}
+
+.quarter {
+    width: 25%;
+}
+
+.third: {
+    width: 33%;
+}
+
+.half {
+    width: 50%;
+}
+
+.two-thirds {
+    width: 66%;
+}
+
+.three-fourths {
+    width: 75%;
+}
+
+.full {
+    width: 100%
+}
+
+body .last {
+    padding-left: 0;
+}

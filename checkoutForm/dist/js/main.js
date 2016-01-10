@@ -51,7 +51,7 @@ var Input = React.createClass({
                     onChange: this.props.onChange || this.onChange,
                     value: this.state.value,
                     placeholder: this.props.placeholder,
-                    autocomplete: this.props.autocomplete }),
+                    autoComplete: this.props.autoComplete }),
                 React.createElement(_inputmessage2.default, { message: this.state.message || this.props.message,
                     messageContainerClass: this.props.messageContainerClass,
                     status: this.state.status,
@@ -106,7 +106,27 @@ var Checkout = React.createClass({
         return React.createElement(
             "div",
             null,
-            React.createElement(_input2.default, { type: "text", label: "Full Name", name: "fname", autocomplete: "fname" })
+            React.createElement(
+                "form",
+                null,
+                React.createElement(
+                    "h3",
+                    null,
+                    "About you"
+                ),
+                React.createElement(_input2.default, { type: "text", label: "Full Name", name: "fname", placeholder: "John Doe", autoComplete: "fname" }),
+                React.createElement(_input2.default, { type: "email", label: "Email", name: "email", autoComplete: "email" }),
+                React.createElement(_input2.default, { type: "email", label: "Confirm Email", name: "confirmEmail", autoComplete: "email" }),
+                React.createElement(_input2.default, { type: "checkbox", label: "Put me on the mailing list?", name: "mailinglist" }),
+                React.createElement(
+                    "h3",
+                    null,
+                    "Billing Address"
+                ),
+                React.createElement(_input2.default, { type: "text", label: "Address", name: "address", placeholder: "123 Sesame Street", autoComplete: "address" }),
+                React.createElement(_input2.default, { type: "text", label: "City", name: "city", autoComplete: "city" }),
+                React.createElement(_input2.default, { type: "submit", value: "Submit", className: "btn btn-primary" })
+            )
         );
     }
 });
