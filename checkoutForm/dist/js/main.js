@@ -12,6 +12,11 @@ var _inputmessage2 = _interopRequireDefault(_inputmessage);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Input = React.createClass({
+    getInitialState: function getInitialState() {
+        return {
+            value: this.props.value || ""
+        };
+    },
     getDefaultProps: function getDefaultProps() {
         return {
             type: 'text',
@@ -21,7 +26,15 @@ var Input = React.createClass({
             regex: ''
         };
     },
-    onChange: function onChange() {},
+    onChange: function onChange(e) {
+        var updatedValue = {
+            value: e.target.value
+        };
+        var validate = this.props.validate || this.validate;
+
+        this.setState(updatedValue);
+        validate(updatedValue);
+    },
     validate: function validate() {},
     render: function render() {
         return React.createElement(
@@ -29,12 +42,20 @@ var Input = React.createClass({
             { className: this.props.inputContainerClass },
             React.createElement(
                 'label',
-                { 'for': this.props.name },
+                { htmlFor: this.props.name },
+                this.props.label,
                 React.createElement('input', { type: this.props.type,
                     id: this.props.name,
                     name: this.props.name,
                     className: this.props.className,
-                    onChange: this.props.onChange || this.onChange
+                    onChange: this.props.onChange || this.onChange,
+                    value: this.state.value,
+                    placeholder: this.props.placeholder,
+                    autocomplete: this.props.autocomplete }),
+                React.createElement(_inputmessage2.default, { message: this.state.message || this.props.message,
+                    messageContainerClass: this.props.messageContainerClass,
+                    status: this.state.status,
+                    className: this.state.messageClassName
                 })
             )
         );
@@ -44,7 +65,7 @@ var Input = React.createClass({
 exports.default = Input;
 
 },{"./inputmessage.jsx":2}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -52,14 +73,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var InputMessage = React.createClass({
     render: function render() {
+        var classes = 'message ' + this.props.status + ' ' + this.props.className;
         return React.createElement(
-            "div",
-            { className: this.props.messageContainerClass },
-            React.createElement(
-                "p",
-                { className: this.props.className },
-                "this.props.message"
-            )
+            'div',
+            null,
+            this.props.message ? React.createElement(
+                'div',
+                { className: this.props.messageContainerClass },
+                React.createElement(
+                    'p',
+                    { className: classes },
+                    this.props.message
+                )
+            ) : null
         );
     }
 });
@@ -67,16 +93,24 @@ var InputMessage = React.createClass({
 exports.default = InputMessage;
 
 },{}],3:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _input = require('./components/input/input.jsx');
+var _input = require("./components/input/input.jsx");
 
 var _input2 = _interopRequireDefault(_input);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Checkout = React.createClass({});
+var Checkout = React.createClass({
+    render: function render() {
+        return React.createElement(
+            "div",
+            null,
+            React.createElement(_input2.default, { type: "text", label: "Full Name", name: "fname", autocomplete: "fname" })
+        );
+    }
+});
 
-React.render(React.createElement(Checkout, null), document.getElementById('checkout'));
+ReactDOM.render(React.createElement(Checkout, null), document.getElementById('checkout'));
 
 },{"./components/input/input.jsx":1}]},{},[3]);

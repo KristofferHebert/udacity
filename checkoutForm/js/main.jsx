@@ -1,5 +1,14 @@
 import Input from './components/input/input.jsx'
 
-const Checkout = React.createClass({})
+const Checkout = React.createClass({
+    render(){
+        return (
+            <div>
+                <Input type="text" label="Full Name" name="fname" autoComplete="fname"/>
 
-React.render(<Checkout />, document.getElementById('checkout'))
+            </div>
+        )
+    }
+})
+
+ReactDOM.render(<Checkout />, document.getElementById('checkout'))

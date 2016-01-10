@@ -1,11 +1,16 @@
 
 const InputMessage = React.createClass({
         render(){
+            var classes = 'message ' + this.props.status + ' ' + this.props.className
             return (
-                <div className={this.props.messageContainerClass}>
-                    <p className={this.props.className}>this.props.message</p>
-                </div>
-            )
+                    <div>
+                        { this.props.message ? (
+                            <div className={this.props.messageContainerClass}>
+                                <p className={classes}>{this.props.message}</p>
+                            </div>
+                        ) : null }
+                    </div>
+                )
         }
 })
 
