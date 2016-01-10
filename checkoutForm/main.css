@@ -1,6 +1,11 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-size: 100%;
     font-family: arial, san-serif;
+    color: #222;
 }
 
 input {
@@ -8,7 +13,18 @@ input {
     width: 100%;
     display:block;
     padding: .6em;
+    font-size: 1em;
     border: 1px solid #ddd;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    outline: none;
+}
+
+input:focus {
+    box-shadow: 0 0 3px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
 }
 
 label span{
@@ -25,8 +41,10 @@ label span{
 }
 
 .btn-primary {
-    color: white;
-    background: lightblue;
+    color: #fff;
+    font-size: 1em;
+    background: #0099cc;
+    border: 0;
 }
 
 /* Grid */
@@ -50,8 +68,8 @@ label span{
 
 .quarter, .third, .half, .two-thirds, .three-fourths {
     float: left;
-    padding-left: .4em;
-    box-sizing: content-box;
+    padding-right: 1em;
+    box-sizing: border-box;
 }
 
 .quarter {
@@ -79,5 +97,5 @@ label span{
 }
 
 body .last {
-    padding-left: 0;
+    padding-right: 0;
 }

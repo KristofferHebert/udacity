@@ -105,7 +105,7 @@ var Checkout = React.createClass({
     render: function render() {
         return React.createElement(
             "div",
-            null,
+            { className: "wrapper" },
             React.createElement(
                 "form",
                 null,
@@ -115,16 +115,37 @@ var Checkout = React.createClass({
                     "About you"
                 ),
                 React.createElement(_input2.default, { type: "text", label: "Full Name", name: "fname", placeholder: "John Doe", autoComplete: "fname" }),
-                React.createElement(_input2.default, { type: "email", label: "Email", name: "email", autoComplete: "email" }),
-                React.createElement(_input2.default, { type: "email", label: "Confirm Email", name: "confirmEmail", autoComplete: "email" }),
+                React.createElement(_input2.default, { type: "email", label: "Email", name: "email", placeholder: "johndoe@gmail.com", inputContainerClass: "half", autoComplete: "email" }),
+                React.createElement(_input2.default, { type: "email", label: "Confirm Email", placeholder: "johndoe@gmail.com", name: "confirmEmail", inputContainerClass: "half last", autoComplete: "email" }),
                 React.createElement(_input2.default, { type: "checkbox", label: "Put me on the mailing list?", name: "mailinglist" }),
+                React.createElement(
+                    "h3",
+                    null,
+                    "Credit Card Details"
+                ),
+                React.createElement(_input2.default, { type: "text", label: "Credit Card Number", name: "creditcard", inputContainerClass: "half", placeholder: "#### #### #### ####" }),
+                React.createElement(_input2.default, { type: "date", label: "Expiration Date", name: "expirationdate", inputContainerClass: "half last" }),
                 React.createElement(
                     "h3",
                     null,
                     "Billing Address"
                 ),
-                React.createElement(_input2.default, { type: "text", label: "Address", name: "address", placeholder: "123 Sesame Street", autoComplete: "address" }),
-                React.createElement(_input2.default, { type: "text", label: "City", name: "city", autoComplete: "city" }),
+                React.createElement(_input2.default, { type: "text", label: "Address 1", name: "address1", placeholder: "123 Sesame Street", autoComplete: "address" }),
+                React.createElement(_input2.default, { type: "text", label: "Address 2", name: "address2", placeholder: "APT #123", autoComplete: "address" }),
+                React.createElement(_input2.default, { type: "text", label: "City", name: "city", autoComplete: "city", inputContainerClass: "half" }),
+                React.createElement(_input2.default, { type: "text", label: "State", name: "state", autoComplete: "state", inputContainerClass: "quarter" }),
+                React.createElement(_input2.default, { type: "text", label: "Zipcode", name: "zipcode", autoComplete: "zipcode", inputContainerClass: "quarter last" }),
+                React.createElement(
+                    "h3",
+                    null,
+                    "Shipping Address"
+                ),
+                React.createElement(_input2.default, { type: "checkbox", label: "Same as Billing Address?", name: "sameasbilling" }),
+                React.createElement(_input2.default, { type: "text", label: "Address 1", name: "address1", placeholder: "123 Sesame Street", autoComplete: "address" }),
+                React.createElement(_input2.default, { type: "text", label: "Address 2", name: "address2", placeholder: "APT #123", autoComplete: "address" }),
+                React.createElement(_input2.default, { type: "text", label: "City", name: "city", autoComplete: "city", inputContainerClass: "half" }),
+                React.createElement(_input2.default, { type: "text", label: "State", name: "state", autoComplete: "state", inputContainerClass: "quarter" }),
+                React.createElement(_input2.default, { type: "text", label: "Zipcode", name: "zipcode", autoComplete: "zipcode", inputContainerClass: "quarter last" }),
                 React.createElement(_input2.default, { type: "submit", value: "Submit", className: "btn btn-primary" })
             )
         );
