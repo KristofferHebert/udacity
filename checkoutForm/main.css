@@ -6,6 +6,29 @@ body {
     font-size: 100%;
     font-family: arial, san-serif;
     color: #222;
+    padding: 0;
+    margin: 0;
+}
+
+nav {
+    background: #ddd;
+    padding: .8em;
+    margin-bottom: 3em;
+}
+
+nav ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+nav li {
+    display: inline-block;
+}
+
+a {
+    text-decoration: none;
+    color: #0099cc;
 }
 
 input {
@@ -27,9 +50,24 @@ input:focus {
     border: 1px solid rgba(81, 203, 238, 1);
 }
 
+input:invalid {
+    border-color: red;
+    box-shadow: 0 0 3px red;
+    border: 1px solid red;
+}
+
 label span{
     display:block;
     margin-bottom: .4em;
+}
+
+.checkbox span {
+    float: left;
+}
+
+.checkbox input[type="checkbox"] {
+    display: inline-block;
+    width: inherit;
 }
 
 /* Button */
@@ -57,7 +95,7 @@ label span{
     margin-right: auto;
 }
 
-.row, .cf:after {
+.row:after, .cf:after {
      visibility: hidden;
      display: block;
      font-size: 0;
@@ -98,4 +136,38 @@ label span{
 
 body .last {
     padding-right: 0;
+}
+
+/* Responsive */
+
+@media screen and (max-width: 25em) {
+    body .mobile-half {
+        width: 50%;
+    }
+
+    body .mobile-full {
+        width: 100%;
+    }
+
+    body .mobile-last {
+        padding-right: 0;
+    }
+}
+
+/* Helper Classes */
+
+body .hidden {
+    display: none;
+}
+
+body .fr {
+    float: right;
+}
+
+body .fl {
+    float: left;
+}
+
+body .bold {
+    font-weight: bold;
 }

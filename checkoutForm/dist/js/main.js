@@ -11,6 +11,91 @@ var _inputmessage2 = _interopRequireDefault(_inputmessage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var InputDatalist = React.createClass({
+    getInitialState: function getInitialState() {
+        return {
+            value: this.props.value || ""
+        };
+    },
+    getDefaultProps: function getDefaultProps() {
+        return {
+            type: 'text',
+            name: '',
+            inputContainerClass: 'input-container',
+            className: 'input',
+            regex: ''
+        };
+    },
+    onChange: function onChange(e) {
+        var updatedValue = {
+            value: e.target.value
+        };
+        var validate = this.props.validate || this.validate;
+
+        this.setState(updatedValue);
+        validate(updatedValue);
+    },
+    validate: function validate() {},
+    render: function render() {
+
+        var listName = this.props.name + '-list';
+        var options = this.props.options.map(function (option, i) {
+            return React.createElement(
+                'option',
+                { key: i, value: option },
+                'option'
+            );
+        });
+
+        return React.createElement(
+            'div',
+            { className: this.props.inputContainerClass },
+            React.createElement(
+                'label',
+                { htmlFor: this.props.name },
+                this.props.label,
+                React.createElement('input', { type: this.props.type,
+                    id: this.props.name,
+                    name: this.props.name,
+                    className: this.props.className,
+                    onChange: this.props.onChange || this.onChange,
+                    value: this.state.value,
+                    placeholder: this.props.placeholder,
+                    autoComplete: this.props.autoComplete,
+                    minLength: this.props.minlength,
+                    maxLength: this.props.maxlength,
+                    list: listName
+                }),
+                React.createElement(
+                    'datalist',
+                    { id: listName },
+                    options
+                ),
+                React.createElement(_inputmessage2.default, { message: this.state.message || this.props.message,
+                    messageContainerClass: this.props.messageContainerClass,
+                    status: this.state.status,
+                    className: this.state.messageClassName
+                })
+            )
+        );
+    }
+});
+
+exports.default = InputDatalist;
+
+},{"./inputmessage.jsx":3}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _inputmessage = require('./inputmessage.jsx');
+
+var _inputmessage2 = _interopRequireDefault(_inputmessage);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var Input = React.createClass({
     getInitialState: function getInitialState() {
         return {
@@ -51,7 +136,10 @@ var Input = React.createClass({
                     onChange: this.props.onChange || this.onChange,
                     value: this.state.value,
                     placeholder: this.props.placeholder,
-                    autoComplete: this.props.autoComplete }),
+                    autoComplete: this.props.autoComplete,
+                    minLength: this.props.minlength,
+                    maxLength: this.props.maxlength,
+                    required: this.props.isRequired }),
                 React.createElement(_inputmessage2.default, { message: this.state.message || this.props.message,
                     messageContainerClass: this.props.messageContainerClass,
                     status: this.state.status,
@@ -64,7 +152,7 @@ var Input = React.createClass({
 
 exports.default = Input;
 
-},{"./inputmessage.jsx":2}],2:[function(require,module,exports){
+},{"./inputmessage.jsx":3}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -92,61 +180,135 @@ var InputMessage = React.createClass({
 
 exports.default = InputMessage;
 
-},{}],3:[function(require,module,exports){
-"use strict";
+},{}],4:[function(require,module,exports){
+'use strict';
 
-var _input = require("./components/input/input.jsx");
+var _input = require('./components/input/input.jsx');
 
 var _input2 = _interopRequireDefault(_input);
+
+var _InputDatalist = require('./components/input/InputDatalist.jsx');
+
+var _InputDatalist2 = _interopRequireDefault(_InputDatalist);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Checkout = React.createClass({
+    getInitialState: function getInitialState() {
+        return {
+            sameasbilling: false,
+            credittype: ['Visa', 'American Express', 'Mastercard', 'Discover']
+        };
+    },
+    toggleSameAsBilling: function toggleSameAsBilling() {
+        var sameasbilling = !this.state.sameasbilling;
+        this.setState({ sameasbilling: sameasbilling });
+    },
     render: function render() {
         return React.createElement(
-            "div",
-            { className: "wrapper" },
+            'section',
+            null,
             React.createElement(
-                "form",
+                'header',
                 null,
                 React.createElement(
-                    "h3",
+                    'nav',
                     null,
-                    "About you"
-                ),
-                React.createElement(_input2.default, { type: "text", label: "Full Name", name: "fname", placeholder: "John Doe", autoComplete: "fname" }),
-                React.createElement(_input2.default, { type: "email", label: "Email", name: "email", placeholder: "johndoe@gmail.com", inputContainerClass: "half", autoComplete: "email" }),
-                React.createElement(_input2.default, { type: "email", label: "Confirm Email", placeholder: "johndoe@gmail.com", name: "confirmEmail", inputContainerClass: "half last", autoComplete: "email" }),
-                React.createElement(_input2.default, { type: "checkbox", label: "Put me on the mailing list?", name: "mailinglist" }),
+                    React.createElement(
+                        'ul',
+                        null,
+                        React.createElement(
+                            'li',
+                            null,
+                            React.createElement(
+                                'a',
+                                { href: '#' },
+                                'Cam\'s Company'
+                            )
+                        ),
+                        React.createElement(
+                            'li',
+                            { className: 'fr bold' },
+                            React.createElement(
+                                'a',
+                                { href: '#' },
+                                'Checkout Page'
+                            )
+                        )
+                    )
+                )
+            ),
+            React.createElement(
+                'div',
+                { className: 'wrapper' },
                 React.createElement(
-                    "h3",
+                    'form',
                     null,
-                    "Credit Card Details"
-                ),
-                React.createElement(_input2.default, { type: "text", label: "Credit Card Number", name: "creditcard", inputContainerClass: "half", placeholder: "#### #### #### ####" }),
-                React.createElement(_input2.default, { type: "date", label: "Expiration Date", name: "expirationdate", inputContainerClass: "half last" }),
-                React.createElement(
-                    "h3",
-                    null,
-                    "Billing Address"
-                ),
-                React.createElement(_input2.default, { type: "text", label: "Address 1", name: "address1", placeholder: "123 Sesame Street", autoComplete: "address" }),
-                React.createElement(_input2.default, { type: "text", label: "Address 2", name: "address2", placeholder: "APT #123", autoComplete: "address" }),
-                React.createElement(_input2.default, { type: "text", label: "City", name: "city", autoComplete: "city", inputContainerClass: "half" }),
-                React.createElement(_input2.default, { type: "text", label: "State", name: "state", autoComplete: "state", inputContainerClass: "quarter" }),
-                React.createElement(_input2.default, { type: "text", label: "Zipcode", name: "zipcode", autoComplete: "zipcode", inputContainerClass: "quarter last" }),
-                React.createElement(
-                    "h3",
-                    null,
-                    "Shipping Address"
-                ),
-                React.createElement(_input2.default, { type: "checkbox", label: "Same as Billing Address?", name: "sameasbilling" }),
-                React.createElement(_input2.default, { type: "text", label: "Address 1", name: "address1", placeholder: "123 Sesame Street", autoComplete: "address" }),
-                React.createElement(_input2.default, { type: "text", label: "Address 2", name: "address2", placeholder: "APT #123", autoComplete: "address" }),
-                React.createElement(_input2.default, { type: "text", label: "City", name: "city", autoComplete: "city", inputContainerClass: "half" }),
-                React.createElement(_input2.default, { type: "text", label: "State", name: "state", autoComplete: "state", inputContainerClass: "quarter" }),
-                React.createElement(_input2.default, { type: "text", label: "Zipcode", name: "zipcode", autoComplete: "zipcode", inputContainerClass: "quarter last" }),
-                React.createElement(_input2.default, { type: "submit", value: "Submit", className: "btn btn-primary" })
+                    React.createElement(
+                        'h3',
+                        null,
+                        'About you'
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'row' },
+                        React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname', placeholder: 'John Doe', autoComplete: 'name' }),
+                        React.createElement(_input2.default, { type: 'email', label: 'Email', name: 'email', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half', autoComplete: 'email' }),
+                        React.createElement(_input2.default, { type: 'email', label: 'Confirm Email', placeholder: 'johndoe@gmail.com', name: 'confirmEmail', inputContainerClass: 'half last', autoComplete: 'email' })
+                    ),
+                    React.createElement(_input2.default, { type: 'checkbox', label: 'Put me on the mailing list?', inputContainerClass: 'checkbox full', name: 'mailinglist' }),
+                    React.createElement(
+                        'div',
+                        { className: 'row' },
+                        React.createElement(
+                            'h3',
+                            null,
+                            'Credit Card Details'
+                        ),
+                        React.createElement(_input2.default, { type: 'text', label: 'Credit Card Number', name: 'creditcard', inputContainerClass: 'half mobile-full mobile-last', placeholder: '#### #### #### ####', autoComplete: 'cc-number' }),
+                        React.createElement(_input2.default, { type: 'date', label: 'Expiration Date', name: 'expirationdate', inputContainerClass: 'quarter mobile-half' }),
+                        React.createElement(_input2.default, { type: 'number', label: 'CVC', name: 'cvc', maxLength: '3', inputContainerClass: 'quarter mobile-half last' })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'row' },
+                        React.createElement(_InputDatalist2.default, { type: 'text', label: 'Credit Card Type', name: 'credittype', options: this.state.credittype, inputContainerClass: 'quarter mobile-half' })
+                    ),
+                    React.createElement(
+                        'h3',
+                        null,
+                        'Billing Address'
+                    ),
+                    React.createElement(_input2.default, { type: 'text', label: 'Address 1', name: 'address1', placeholder: '123 Sesame Street', autoComplete: 'address' }),
+                    React.createElement(_input2.default, { type: 'text', label: 'Address 2', name: 'address2', placeholder: 'APT #123', autoComplete: 'address' }),
+                    React.createElement(
+                        'div',
+                        { className: 'row' },
+                        React.createElement(_input2.default, { type: 'text', label: 'City', name: 'city', autoComplete: 'city', placeholder: 'Smallville', inputContainerClass: 'half' }),
+                        React.createElement(_input2.default, { type: 'text', label: 'State', name: 'state', autoComplete: 'state', placeholder: 'KA', inputContainerClass: 'quarter' }),
+                        React.createElement(_input2.default, { type: 'number', label: 'Zipcode', name: 'zipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last' })
+                    ),
+                    React.createElement(
+                        'h3',
+                        null,
+                        'Shipping Address'
+                    ),
+                    React.createElement(_input2.default, { type: 'checkbox', label: 'Same as Billing Address?', inputContainerClass: 'checkbox full', name: 'sameasbilling', onChange: this.toggleSameAsBilling }),
+                    React.createElement(
+                        'div',
+                        { className: this.state.sameasbilling ? "hidden" : "" },
+                        React.createElement(_input2.default, { type: 'text', label: 'Address 1', name: 'shippingaddress1', placeholder: '123 Sesame Street', autoComplete: 'address' }),
+                        React.createElement(_input2.default, { type: 'text', label: 'Address 2', name: 'shippingaddress2', placeholder: 'APT #123', autoComplete: 'address' }),
+                        React.createElement(
+                            'div',
+                            { className: 'row' },
+                            React.createElement(_input2.default, { type: 'text', label: 'City', name: 'shippingcity', autoComplete: 'city', placeholder: 'Smallville', inputContainerClass: 'half' }),
+                            React.createElement(_input2.default, { type: 'text', label: 'State', name: 'shippingstate', autoComplete: 'state', placeholder: 'KA', inputContainerClass: 'quarter' }),
+                            React.createElement(_input2.default, { type: 'number', label: 'Zipcode', name: 'shippingzipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last' })
+                        )
+                    ),
+                    React.createElement(_input2.default, { type: 'submit', value: 'Submit', className: 'btn btn-primary' })
+                )
             )
         );
     }
@@ -154,4 +316,4 @@ var Checkout = React.createClass({
 
 ReactDOM.render(React.createElement(Checkout, null), document.getElementById('checkout'));
 
-},{"./components/input/input.jsx":1}]},{},[3]);
+},{"./components/input/InputDatalist.jsx":1,"./components/input/input.jsx":2}]},{},[4]);

@@ -1,6 +1,6 @@
 import InputMessage from './inputmessage.jsx'
 
-const Input = React.createClass({
+const InputDatalist = React.createClass({
         getInitialState(){
             return {
                 value: this.props.value || ""
@@ -28,6 +28,14 @@ const Input = React.createClass({
 
         },
         render(){
+
+            const listName = this.props.name + '-list'
+            const options = this.props.options.map((option, i)=>{
+                return (
+                    <option key={i} value={option}>option</option>
+                )
+            })
+
             return (
                 <div className={this.props.inputContainerClass}>
                     <label htmlFor={this.props.name}>
@@ -41,8 +49,12 @@ const Input = React.createClass({
                             placeholder={this.props.placeholder}
                             autoComplete={this.props.autoComplete}
                             minLength={this.props.minlength}
-                            maxLength={this.props.maxlength}
-                            required={this.props.isRequired}/>
+                            maxLength={this.props.maxlength} 
+                            list={listName}
+                            />
+                        <datalist id={listName}>
+                            {options}
+                        </datalist>
                     <InputMessage message={this.state.message || this.props.message}
                         messageContainerClass={this.props.messageContainerClass}
                         status={this.state.status}
@@ -54,4 +66,4 @@ const Input = React.createClass({
         }
 })
 
-export default Input
+export default InputDatalist
