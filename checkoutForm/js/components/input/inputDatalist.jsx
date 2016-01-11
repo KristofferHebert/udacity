@@ -48,8 +48,8 @@ const InputDatalist = React.createClass({
                             value={this.state.value}
                             placeholder={this.props.placeholder}
                             autoComplete={this.props.autoComplete}
-                            minLength={this.props.minlength}
-                            maxLength={this.props.maxlength} 
+                            minLength={this.props.minLength}
+                            maxLength={this.props.maxLength}
                             list={listName}
                             />
                         <datalist id={listName}>

@@ -1,5 +1,6 @@
 import Input from './components/input/input.jsx'
 import InputDatalist from './components/input/InputDatalist.jsx'
+import If from './components/utils/If.jsx'
 
 
 const Checkout = React.createClass({
@@ -42,10 +43,10 @@ const Checkout = React.createClass({
                             <h3>Credit Card Details</h3>
                             <Input type="text" label="Credit Card Number" name="creditcard" inputContainerClass="half mobile-full mobile-last" placeholder="#### #### #### ####" autoComplete="cc-number" />
                             <Input type="date" label="Expiration Date" name="expirationdate" inputContainerClass="quarter mobile-half" />
-                            <Input type="number" label="CVC" name="cvc" maxLength="3" inputContainerClass="quarter mobile-half last" />
+                            <Input type="number" label="CVC" name="cvc" placeholder="777" maxLength="3" inputContainerClass="quarter mobile-half last" />
                         </div>
                         <div className="row">
-                            <InputDatalist type="text" label="Credit Card Type" name="credittype" options={this.state.credittype} inputContainerClass="quarter mobile-half" />
+                            <InputDatalist type="text" label="Credit Card Type" placeholder="Visa" name="credittype" options={this.state.credittype} inputContainerClass="quarter mobile-half" />
                         </div>
                         <h3>Billing Address</h3>
                         <Input type="text" label="Address 1" name="address1" placeholder="123 Sesame Street" autoComplete="address" />
@@ -54,21 +55,21 @@ const Checkout = React.createClass({
                         <div className="row">
                             <Input type="text" label="City" name="city" autoComplete="city" placeholder="Smallville" inputContainerClass="half" />
                             <Input type="text" label="State" name="state" autoComplete="state" placeholder="KA" inputContainerClass="quarter" />
-                            <Input type="number" label="Zipcode" name="zipcode" autoComplete="zipcode" placeholder="67524" inputContainerClass="quarter last" />
+                            <Input type="number" label="Zip code" name="zipcode" autoComplete="zipcode" placeholder="67524" inputContainerClass="quarter last" />
                         </div>
 
                         <h3>Shipping Address</h3>
                         <Input type="checkbox" label="Same as Billing Address?" inputContainerClass="checkbox full" name="sameasbilling" onChange={this.toggleSameAsBilling}/>
-                        <div className={this.state.sameasbilling ? "hidden" : ""}>
+                        <If logic={!this.state.sameasbilling}>
                             <Input type="text" label="Address 1" name="shippingaddress1" placeholder="123 Sesame Street" autoComplete="address"/>
                             <Input type="text" label="Address 2" name="shippingaddress2" placeholder="APT #123" autoComplete="address"/>
 
                             <div className="row">
                                 <Input type="text" label="City" name="shippingcity" autoComplete="city" placeholder="Smallville" inputContainerClass="half"/>
                                 <Input type="text" label="State" name="shippingstate" autoComplete="state" placeholder="KA" inputContainerClass="quarter"/>
-                                <Input type="number" label="Zipcode" name="shippingzipcode" autoComplete="zipcode" placeholder="67524" inputContainerClass="quarter last"/>
+                                <Input type="number" label="Zip code" name="shippingzipcode" autoComplete="zipcode" placeholder="67524" inputContainerClass="quarter last"/>
                             </div>
-                        </div>
+                        </If>
                         <Input type="submit" value="Submit" className="btn btn-primary"/>
                     </form>
                 </div>

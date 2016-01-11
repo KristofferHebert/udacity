@@ -62,8 +62,8 @@ var InputDatalist = React.createClass({
                     value: this.state.value,
                     placeholder: this.props.placeholder,
                     autoComplete: this.props.autoComplete,
-                    minLength: this.props.minlength,
-                    maxLength: this.props.maxlength,
+                    minLength: this.props.minLength,
+                    maxLength: this.props.maxLength,
                     list: listName
                 }),
                 React.createElement(
@@ -137,8 +137,8 @@ var Input = React.createClass({
                     value: this.state.value,
                     placeholder: this.props.placeholder,
                     autoComplete: this.props.autoComplete,
-                    minLength: this.props.minlength,
-                    maxLength: this.props.maxlength,
+                    minLength: this.props.minLength,
+                    maxLength: this.props.maxLength,
                     required: this.props.isRequired }),
                 React.createElement(_inputmessage2.default, { message: this.state.message || this.props.message,
                     messageContainerClass: this.props.messageContainerClass,
@@ -181,6 +181,25 @@ var InputMessage = React.createClass({
 exports.default = InputMessage;
 
 },{}],4:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var If = React.createClass({
+    render: function render() {
+        var children = this.props.logic ? this.props.children : null;
+        return React.createElement(
+            "div",
+            null,
+            children
+        );
+    }
+});
+
+exports.default = If;
+
+},{}],5:[function(require,module,exports){
 'use strict';
 
 var _input = require('./components/input/input.jsx');
@@ -190,6 +209,10 @@ var _input2 = _interopRequireDefault(_input);
 var _InputDatalist = require('./components/input/InputDatalist.jsx');
 
 var _InputDatalist2 = _interopRequireDefault(_InputDatalist);
+
+var _If = require('./components/utils/If.jsx');
+
+var _If2 = _interopRequireDefault(_If);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -267,12 +290,12 @@ var Checkout = React.createClass({
                         ),
                         React.createElement(_input2.default, { type: 'text', label: 'Credit Card Number', name: 'creditcard', inputContainerClass: 'half mobile-full mobile-last', placeholder: '#### #### #### ####', autoComplete: 'cc-number' }),
                         React.createElement(_input2.default, { type: 'date', label: 'Expiration Date', name: 'expirationdate', inputContainerClass: 'quarter mobile-half' }),
-                        React.createElement(_input2.default, { type: 'number', label: 'CVC', name: 'cvc', maxLength: '3', inputContainerClass: 'quarter mobile-half last' })
+                        React.createElement(_input2.default, { type: 'number', label: 'CVC', name: 'cvc', placeholder: '777', maxLength: '3', inputContainerClass: 'quarter mobile-half last' })
                     ),
                     React.createElement(
                         'div',
                         { className: 'row' },
-                        React.createElement(_InputDatalist2.default, { type: 'text', label: 'Credit Card Type', name: 'credittype', options: this.state.credittype, inputContainerClass: 'quarter mobile-half' })
+                        React.createElement(_InputDatalist2.default, { type: 'text', label: 'Credit Card Type', placeholder: 'Visa', name: 'credittype', options: this.state.credittype, inputContainerClass: 'quarter mobile-half' })
                     ),
                     React.createElement(
                         'h3',
@@ -286,7 +309,7 @@ var Checkout = React.createClass({
                         { className: 'row' },
                         React.createElement(_input2.default, { type: 'text', label: 'City', name: 'city', autoComplete: 'city', placeholder: 'Smallville', inputContainerClass: 'half' }),
                         React.createElement(_input2.default, { type: 'text', label: 'State', name: 'state', autoComplete: 'state', placeholder: 'KA', inputContainerClass: 'quarter' }),
-                        React.createElement(_input2.default, { type: 'number', label: 'Zipcode', name: 'zipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last' })
+                        React.createElement(_input2.default, { type: 'number', label: 'Zip code', name: 'zipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last' })
                     ),
                     React.createElement(
                         'h3',
@@ -295,8 +318,8 @@ var Checkout = React.createClass({
                     ),
                     React.createElement(_input2.default, { type: 'checkbox', label: 'Same as Billing Address?', inputContainerClass: 'checkbox full', name: 'sameasbilling', onChange: this.toggleSameAsBilling }),
                     React.createElement(
-                        'div',
-                        { className: this.state.sameasbilling ? "hidden" : "" },
+                        _If2.default,
+                        { logic: !this.state.sameasbilling },
                         React.createElement(_input2.default, { type: 'text', label: 'Address 1', name: 'shippingaddress1', placeholder: '123 Sesame Street', autoComplete: 'address' }),
                         React.createElement(_input2.default, { type: 'text', label: 'Address 2', name: 'shippingaddress2', placeholder: 'APT #123', autoComplete: 'address' }),
                         React.createElement(
@@ -304,7 +327,7 @@ var Checkout = React.createClass({
                             { className: 'row' },
                             React.createElement(_input2.default, { type: 'text', label: 'City', name: 'shippingcity', autoComplete: 'city', placeholder: 'Smallville', inputContainerClass: 'half' }),
                             React.createElement(_input2.default, { type: 'text', label: 'State', name: 'shippingstate', autoComplete: 'state', placeholder: 'KA', inputContainerClass: 'quarter' }),
-                            React.createElement(_input2.default, { type: 'number', label: 'Zipcode', name: 'shippingzipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last' })
+                            React.createElement(_input2.default, { type: 'number', label: 'Zip code', name: 'shippingzipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last' })
                         )
                     ),
                     React.createElement(_input2.default, { type: 'submit', value: 'Submit', className: 'btn btn-primary' })
@@ -316,4 +339,4 @@ var Checkout = React.createClass({
 
 ReactDOM.render(React.createElement(Checkout, null), document.getElementById('checkout'));
 
-},{"./components/input/InputDatalist.jsx":1,"./components/input/input.jsx":2}]},{},[4]);
+},{"./components/input/InputDatalist.jsx":1,"./components/input/input.jsx":2,"./components/utils/If.jsx":4}]},{},[5]);
