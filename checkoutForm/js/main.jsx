@@ -7,6 +7,10 @@ const Checkout = React.createClass({
     getInitialState(){
             return {
                 sameasbilling: false,
+                email: {
+                    email: "",
+                    confirmEmail: ""
+                },
                 credittype: [
                     'Visa',
                     'American Express',
@@ -18,6 +22,15 @@ const Checkout = React.createClass({
     toggleSameAsBilling(){
         var sameasbilling = !this.state.sameasbilling
         this.setState({sameasbilling})
+    },
+    handleEmailChange(event){
+        var email = event.target.value
+        var name = event.target.name
+        var updatedEmail = this.state.email
+        updatedEmail[name] = email
+
+        this.setState(updatedEmail)
+
     },
     render(){
         return (
@@ -35,13 +48,13 @@ const Checkout = React.createClass({
                         <h3>About you</h3>
                         <div className="row">
                             <Input type="text" label="Full Name" name="fname" placeholder="John Doe" autoComplete="name" />
-                            <Input type="email" label="Email" name="email" placeholder="johndoe@gmail.com" inputContainerClass="half" autoComplete="email" />
-                            <Input type="email" label="Confirm Email" placeholder="johndoe@gmail.com" name="confirmEmail" inputContainerClass="half last" autoComplete="email" />
+                            <Input type="email" label="Email" name="email" placeholder="johndoe@gmail.com" inputContainerClass="half" autoComplete="email" onChange={this.handleEmailChange} />
+                            <Input type="email" label="Confirm Email" name="confirmEmail"  placeholder="johndoe@gmail.com" inputContainerClass="half last" onChange={this.handleEmailChange} autoComplete="email" />
                         </div>
                         <Input type="checkbox" label="Put me on the mailing list?" inputContainerClass="checkbox full" name="mailinglist"  />
                         <div className="row">
                             <h3>Credit Card Details</h3>
-                            <Input type="text" label="Credit Card Number" name="creditcard" inputContainerClass="half mobile-full mobile-last" placeholder="#### #### #### ####" autoComplete="cc-number" />
+                            <Input type="number" label="Credit Card Number" name="creditcard" inputContainerClass="half mobile-full mobile-last" placeholder="#### #### #### ####" autoComplete="cc-number" />
                             <Input type="date" label="Expiration Date" name="expirationdate" inputContainerClass="quarter mobile-half" />
                             <Input type="number" label="CVC" name="cvc" placeholder="777" maxLength="3" inputContainerClass="quarter mobile-half last" />
                         </div>
