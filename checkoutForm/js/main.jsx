@@ -1,3 +1,5 @@
+'use strict';
+
 import Input from './components/input/input.jsx'
 import InputDatalist from './components/input/InputDatalist.jsx'
 import If from './components/utils/If.jsx'
@@ -7,10 +9,6 @@ const Checkout = React.createClass({
     getInitialState(){
             return {
                 sameasbilling: false,
-                email: {
-                    email: "",
-                    confirmEmail: ""
-                },
                 credittype: [
                     'Visa',
                     'American Express',
@@ -24,12 +22,10 @@ const Checkout = React.createClass({
         this.setState({sameasbilling})
     },
     handleEmailChange(event){
-        var email = event.target.value
-        var name = event.target.name
-        var updatedEmail = this.state.email
-        updatedEmail[name] = email
 
-        this.setState(updatedEmail)
+            var newState = this.state
+            newState[event.target.name] = event.target.value
+            this.setState(newState)
 
     },
     render(){
@@ -48,8 +44,8 @@ const Checkout = React.createClass({
                         <h3>About you</h3>
                         <div className="row">
                             <Input type="text" label="Full Name" name="fname" placeholder="John Doe" autoComplete="name" />
-                            <Input type="email" label="Email" name="email" placeholder="johndoe@gmail.com" inputContainerClass="half" autoComplete="email" onChange={this.handleEmailChange} />
-                            <Input type="email" label="Confirm Email" name="confirmEmail"  placeholder="johndoe@gmail.com" inputContainerClass="half last" onChange={this.handleEmailChange} autoComplete="email" />
+                            <Input type="email" label="Email" name="email1" placeholder="johndoe@gmail.com" inputContainerClass="half"  onChange={this.handleEmailChange} autoComplete="email" />
+                            <Input type="email" label="Confirm Email" name="emai2"  placeholder="johndoe@gmail.com" inputContainerClass="half last" onChange={this.handleEmailChange} autoComplete="email" />
                         </div>
                         <Input type="checkbox" label="Put me on the mailing list?" inputContainerClass="checkbox full" name="mailinglist"  />
                         <div className="row">

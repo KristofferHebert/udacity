@@ -220,10 +220,6 @@ var Checkout = React.createClass({
     getInitialState: function getInitialState() {
         return {
             sameasbilling: false,
-            email: {
-                email: "",
-                confirmEmail: ""
-            },
             credittype: ['Visa', 'American Express', 'Mastercard', 'Discover']
         };
     },
@@ -232,12 +228,10 @@ var Checkout = React.createClass({
         this.setState({ sameasbilling: sameasbilling });
     },
     handleEmailChange: function handleEmailChange(event) {
-        var email = event.target.value;
-        var name = event.target.name;
-        var updatedEmail = this.state.email;
-        updatedEmail[name] = email;
 
-        this.setState(updatedEmail);
+        var newState = this.state;
+        newState[event.target.name] = event.target.value;
+        this.setState(newState);
     },
     render: function render() {
         return React.createElement(
@@ -288,8 +282,8 @@ var Checkout = React.createClass({
                         'div',
                         { className: 'row' },
                         React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname', placeholder: 'John Doe', autoComplete: 'name' }),
-                        React.createElement(_input2.default, { type: 'email', label: 'Email', name: 'email', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half', autoComplete: 'email', onChange: this.handleEmailChange }),
-                        React.createElement(_input2.default, { type: 'email', label: 'Confirm Email', name: 'confirmEmail', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half last', onChange: this.handleEmailChange, autoComplete: 'email' })
+                        React.createElement(_input2.default, { type: 'email', label: 'Email', name: 'email1', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half', onChange: this.handleEmailChange, autoComplete: 'email' }),
+                        React.createElement(_input2.default, { type: 'email', label: 'Confirm Email', name: 'emai2', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half last', onChange: this.handleEmailChange, autoComplete: 'email' })
                     ),
                     React.createElement(_input2.default, { type: 'checkbox', label: 'Put me on the mailing list?', inputContainerClass: 'checkbox full', name: 'mailinglist' }),
                     React.createElement(
