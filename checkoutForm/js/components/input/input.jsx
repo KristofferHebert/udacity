@@ -1,31 +1,18 @@
 import InputMessage from './inputmessage.jsx'
 
 const Input = React.createClass({
-        getInitialState(){
-            return {
-                value: this.props.value || ""
-            }
-        },
         getDefaultProps(){
             return {
                 type: 'text',
                 name: '',
+                messageClassName: '',
                 inputContainerClass: 'input-container',
                 className: 'input',
-                regex: ''
+                regex: '',
+                value: '',
+                message: '',
+                status: ''
             }
-        },
-        onChange(e){
-            let updatedValue = {
-                value: e.target.value
-            }
-            let validate = this.props.validate || this.validate
-
-            this.setState(updatedValue)
-            validate(updatedValue)
-        },
-        validate(){
-
         },
         render(){
             return (
@@ -36,17 +23,17 @@ const Input = React.createClass({
                             id={this.props.name}
                             name={this.props.name}
                             className={this.props.className}
-                            onChange={this.props.onChange || this.onChange}
-                            value={this.state.value}
+                            onChange={this.props.onChange}
+                            value={this.props.value}
                             placeholder={this.props.placeholder}
                             autoComplete={this.props.autoComplete}
                             minLength={this.props.minLength}
-                            maxLength={this.props.maxLength} 
+                            maxLength={this.props.maxLength}
                             required={this.props.isRequired}/>
-                    <InputMessage message={this.state.message || this.props.message}
+                    <InputMessage message={this.props.message}
                         messageContainerClass={this.props.messageContainerClass}
-                        status={this.state.status}
-                        className={this.state.messageClassName}
+                        status={this.props.status}
+                        className={this.props.messageClassName}
                         />
                     </label>
                 </div>

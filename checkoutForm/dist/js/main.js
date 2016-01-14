@@ -97,30 +97,19 @@ var _inputmessage2 = _interopRequireDefault(_inputmessage);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Input = React.createClass({
-    getInitialState: function getInitialState() {
-        return {
-            value: this.props.value || ""
-        };
-    },
     getDefaultProps: function getDefaultProps() {
         return {
             type: 'text',
             name: '',
+            messageClassName: '',
             inputContainerClass: 'input-container',
             className: 'input',
-            regex: ''
+            regex: '',
+            value: '',
+            message: '',
+            status: ''
         };
     },
-    onChange: function onChange(e) {
-        var updatedValue = {
-            value: e.target.value
-        };
-        var validate = this.props.validate || this.validate;
-
-        this.setState(updatedValue);
-        validate(updatedValue);
-    },
-    validate: function validate() {},
     render: function render() {
         return React.createElement(
             'div',
@@ -133,17 +122,17 @@ var Input = React.createClass({
                     id: this.props.name,
                     name: this.props.name,
                     className: this.props.className,
-                    onChange: this.props.onChange || this.onChange,
-                    value: this.state.value,
+                    onChange: this.props.onChange,
+                    value: this.props.value,
                     placeholder: this.props.placeholder,
                     autoComplete: this.props.autoComplete,
                     minLength: this.props.minLength,
                     maxLength: this.props.maxLength,
                     required: this.props.isRequired }),
-                React.createElement(_inputmessage2.default, { message: this.state.message || this.props.message,
+                React.createElement(_inputmessage2.default, { message: this.props.message,
                     messageContainerClass: this.props.messageContainerClass,
-                    status: this.state.status,
-                    className: this.state.messageClassName
+                    status: this.props.status,
+                    className: this.props.messageClassName
                 })
             )
         );
@@ -220,6 +209,10 @@ var Checkout = React.createClass({
     getInitialState: function getInitialState() {
         return {
             sameasbilling: false,
+            email: {
+                email1: '',
+                email2: ''
+            },
             credittype: ['Visa', 'American Express', 'Mastercard', 'Discover']
         };
     },
@@ -228,8 +221,7 @@ var Checkout = React.createClass({
         this.setState({ sameasbilling: sameasbilling });
     },
     handleEmailChange: function handleEmailChange(event) {
-
-        var newState = this.state;
+        var newState = this.state.email;
         newState[event.target.name] = event.target.value;
         this.setState(newState);
     },
@@ -282,7 +274,7 @@ var Checkout = React.createClass({
                         'div',
                         { className: 'row' },
                         React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname', placeholder: 'John Doe', autoComplete: 'name' }),
-                        React.createElement(_input2.default, { type: 'email', label: 'Email', name: 'email1', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half', onChange: this.handleEmailChange, autoComplete: 'email' }),
+                        React.createElement(_input2.default, { type: 'email', label: 'Email', name: 'email1', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half', onChange: this.handleEmailChange, value: this.state.email1, autoComplete: 'email' }),
                         React.createElement(_input2.default, { type: 'email', label: 'Confirm Email', name: 'emai2', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half last', onChange: this.handleEmailChange, autoComplete: 'email' })
                     ),
                     React.createElement(_input2.default, { type: 'checkbox', label: 'Put me on the mailing list?', inputContainerClass: 'checkbox full', name: 'mailinglist' }),
