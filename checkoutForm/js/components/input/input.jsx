@@ -11,7 +11,9 @@ const Input = React.createClass({
                 regex: '',
                 value: '',
                 message: '',
-                status: ''
+                status: '',
+                isRequired: false,
+                isAutoFocused: false
             }
         },
         render(){
@@ -29,7 +31,8 @@ const Input = React.createClass({
                             autoComplete={this.props.autoComplete}
                             minLength={this.props.minLength}
                             maxLength={this.props.maxLength}
-                            required={this.props.isRequired}/>
+                            required={this.props.isRequired}
+                            autofocus={this.props.isAutoFocused} />
                     <InputMessage message={this.props.message}
                         messageContainerClass={this.props.messageContainerClass}
                         status={this.props.status}

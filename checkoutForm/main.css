@@ -138,6 +138,21 @@ body .last {
     padding-right: 0;
 }
 
+/* Progress*/
+.progressbar-container, .progressbar{
+    display: block;
+    height: .7em;
+    background: #eee;
+    overflow: hidden;
+    position: relative;
+}
+
+.progressbar {
+    position: absolute;
+    background: #50B948;
+    height: .7em;
+    width: 0;
+}
 /* Responsive */
 
 @media screen and (max-width: 25em) {
@@ -155,6 +170,9 @@ body .last {
 }
 
 /* Helper Classes */
+body .mt {
+    margin-top: .8em;
+}
 
 body .hidden {
     display: none;
