@@ -138,6 +138,18 @@ body .last {
     padding-right: 0;
 }
 
+/* Message */
+.message, .message-success, .message-green {
+    padding: .5em;
+}
+.message-success {
+    background: rgba(80, 185, 72, 0.21);
+}
+
+.message-fail {
+    background: rgba(185, 72, 114, 0.21);
+}
+
 /* Progress*/
 .progressbar-container, .progressbar{
     display: block;

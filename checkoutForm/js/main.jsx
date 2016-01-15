@@ -11,9 +11,17 @@ const Checkout = React.createClass({
     getInitialState(){
             return {
                 sameasbilling: false,
-                email: {
-                    email1: '',
-                    email2: ''
+                email1: {
+                    value: "",
+                    emailsMatch: "",
+                    message: "",
+                    status: ""
+                },
+                email2: {
+                    value: "",
+                    emailsMatch: "",
+                    message: "",
+                    status: ""
                 },
                 credittype: [
                     'Visa',
@@ -30,10 +38,47 @@ const Checkout = React.createClass({
         var sameasbilling = !this.state.sameasbilling
         this.setState({sameasbilling})
     },
-    handleEmailChange(event){
-            var newState = this.state.email
-            newState[event.target.name] = event.target.value
+    handleChange(event){
+            var newState = this.state
+
+            // Set attribute base on field name
+            newState[event.target.name] = {
+                value: event.target.value
+            }
+
             this.setState(newState)
+            console.log(this.state)
+    },
+    handleEmailChange(event){
+            this.handleChange(event)
+
+            // Compare matching email
+            let email1 = this.state.email1
+            let email2 = this.state.email2
+            let emailStatus = this.emailsMatch(email1.value, email2.value)
+
+            //Merge results with existing values
+            email1 = Object.assign(email1, emailStatus)
+            email2 = Object.assign(email2, emailStatus)
+
+            this.setState({
+                email1: email1,
+                email2: email2
+            })
+
+
+
+    },
+    emailsMatch(firstEmail, secondEmail){
+        let emailsMatch = (firstEmail === secondEmail)
+        let message = (emailsMatch) ? 'Passwords Match' : 'Passwords do not Match'
+        let status = (emailsMatch) ? 'message-success' : 'message-fail'
+
+        return {
+            emailsMatch: emailsMatch,
+            message: message,
+            status: status
+        }
     },
     render(){
         return (
@@ -50,9 +95,27 @@ const Checkout = React.createClass({
                     <form>
                         <h3>About you</h3>
                         <div className="row">
-                            <Input type="text" label="Full Name" name="fname" placeholder="John Doe" autoComplete="name" />
-                            <Input type="email" label="Email" name="email1" placeholder="johndoe@gmail.com" inputContainerClass="half"  onChange={this.handleEmailChange} value={this.state.email1} autoComplete="email" />
-                            <Input type="email" label="Confirm Email" name="emai2"  placeholder="johndoe@gmail.com" inputContainerClass="half last" onChange={this.handleEmailChange} autoComplete="email" />
+                            <Input type="text" label="Full Name" name="fname" placeholder="John Doe" autoComplete="name" onChange={this.handleChange} value={this.state.fname} />
+                            <Input type="email"
+                                label="Email"
+                                name="email1"
+                                placeholder="johndoe@gmail.com"
+                                inputContainerClass="half"
+                                onChange={this.handleEmailChange}
+                                value={this.state.email1.value}
+                                status={this.state.email1.status}
+                                message={this.state.email1.message}
+                                autoComplete="email" />
+                            <Input type="email"
+                                label="Confirm Email"
+                                name="email2"
+                                placeholder="johndoe@gmail.com"
+                                inputContainerClass="half"
+                                onChange={this.handleEmailChange}
+                                value={this.state.email2.value}
+                                status={this.state.email2.status}
+                                message={this.state.email2.message}
+                                autoComplete="email" />
                         </div>
                         <Input type="checkbox" label="Put me on the mailing list?" inputContainerClass="checkbox full" name="mailinglist"  />
                         <Section show={this.state.showBillingDetails}>

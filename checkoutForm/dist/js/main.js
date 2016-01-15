@@ -50,6 +50,7 @@ var Input = React.createClass({
                 React.createElement(_inputmessage2.default, { message: this.props.message,
                     messageContainerClass: this.props.messageContainerClass,
                     status: this.props.status,
+                    message: this.props.message,
                     className: this.props.messageClassName
                 })
             )
@@ -276,9 +277,17 @@ var Checkout = React.createClass({
     getInitialState: function getInitialState() {
         return {
             sameasbilling: false,
-            email: {
-                email1: '',
-                email2: ''
+            email1: {
+                value: "",
+                emailsMatch: "",
+                message: "",
+                status: ""
+            },
+            email2: {
+                value: "",
+                emailsMatch: "",
+                message: "",
+                status: ""
             },
             credittype: ['Visa', 'American Express', 'Mastercard', 'Discover'],
             showBillingDetails: false,
@@ -290,10 +299,44 @@ var Checkout = React.createClass({
         var sameasbilling = !this.state.sameasbilling;
         this.setState({ sameasbilling: sameasbilling });
     },
-    handleEmailChange: function handleEmailChange(event) {
-        var newState = this.state.email;
-        newState[event.target.name] = event.target.value;
+    handleChange: function handleChange(event) {
+        var newState = this.state;
+
+        // Set attribute base on field name
+        newState[event.target.name] = {
+            value: event.target.value
+        };
+
         this.setState(newState);
+        console.log(this.state);
+    },
+    handleEmailChange: function handleEmailChange(event) {
+        this.handleChange(event);
+
+        // Compare matching email
+        var email1 = this.state.email1;
+        var email2 = this.state.email2;
+        var emailStatus = this.emailsMatch(email1.value, email2.value);
+
+        //Merge results with existing values
+        email1 = Object.assign(email1, emailStatus);
+        email2 = Object.assign(email2, emailStatus);
+
+        this.setState({
+            email1: email1,
+            email2: email2
+        });
+    },
+    emailsMatch: function emailsMatch(firstEmail, secondEmail) {
+        var emailsMatch = firstEmail === secondEmail;
+        var message = emailsMatch ? 'Passwords Match' : 'Passwords do not Match';
+        var status = emailsMatch ? 'message-success' : 'message-fail';
+
+        return {
+            emailsMatch: emailsMatch,
+            message: message,
+            status: status
+        };
     },
     render: function render() {
         return React.createElement(
@@ -343,9 +386,27 @@ var Checkout = React.createClass({
                     React.createElement(
                         'div',
                         { className: 'row' },
-                        React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname', placeholder: 'John Doe', autoComplete: 'name' }),
-                        React.createElement(_input2.default, { type: 'email', label: 'Email', name: 'email1', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half', onChange: this.handleEmailChange, value: this.state.email1, autoComplete: 'email' }),
-                        React.createElement(_input2.default, { type: 'email', label: 'Confirm Email', name: 'emai2', placeholder: 'johndoe@gmail.com', inputContainerClass: 'half last', onChange: this.handleEmailChange, autoComplete: 'email' })
+                        React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname', placeholder: 'John Doe', autoComplete: 'name', onChange: this.handleChange, value: this.state.fname }),
+                        React.createElement(_input2.default, { type: 'email',
+                            label: 'Email',
+                            name: 'email1',
+                            placeholder: 'johndoe@gmail.com',
+                            inputContainerClass: 'half',
+                            onChange: this.handleEmailChange,
+                            value: this.state.email1.value,
+                            status: this.state.email1.status,
+                            message: this.state.email1.message,
+                            autoComplete: 'email' }),
+                        React.createElement(_input2.default, { type: 'email',
+                            label: 'Confirm Email',
+                            name: 'email2',
+                            placeholder: 'johndoe@gmail.com',
+                            inputContainerClass: 'half',
+                            onChange: this.handleEmailChange,
+                            value: this.state.email2.value,
+                            status: this.state.email2.status,
+                            message: this.state.email2.message,
+                            autoComplete: 'email' })
                     ),
                     React.createElement(_input2.default, { type: 'checkbox', label: 'Put me on the mailing list?', inputContainerClass: 'checkbox full', name: 'mailinglist' }),
                     React.createElement(

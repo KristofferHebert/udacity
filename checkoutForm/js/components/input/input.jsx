@@ -36,6 +36,7 @@ const Input = React.createClass({
                     <InputMessage message={this.props.message}
                         messageContainerClass={this.props.messageContainerClass}
                         status={this.props.status}
+                        message={this.props.message}
                         className={this.props.messageClassName}
                         />
                     </label>
