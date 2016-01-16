@@ -74,30 +74,16 @@ var _inputmessage2 = _interopRequireDefault(_inputmessage);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var InputDatalist = React.createClass({
-    getInitialState: function getInitialState() {
-        return {
-            value: this.props.value || ""
-        };
-    },
     getDefaultProps: function getDefaultProps() {
         return {
             type: 'text',
             name: '',
+            value: '',
             inputContainerClass: 'input-container',
             className: 'input',
             regex: ''
         };
     },
-    onChange: function onChange(e) {
-        var updatedValue = {
-            value: e.target.value
-        };
-        var validate = this.props.validate || this.validate;
-
-        this.setState(updatedValue);
-        validate(updatedValue);
-    },
-    validate: function validate() {},
     render: function render() {
 
         var listName = this.props.name + '-list';
@@ -120,8 +106,8 @@ var InputDatalist = React.createClass({
                     id: this.props.name,
                     name: this.props.name,
                     className: this.props.className,
-                    onChange: this.props.onChange || this.onChange,
-                    value: this.state.value,
+                    onChange: this.props.onChange,
+                    value: this.props.value,
                     placeholder: this.props.placeholder,
                     autoComplete: this.props.autoComplete,
                     minLength: this.props.minLength,
@@ -130,13 +116,13 @@ var InputDatalist = React.createClass({
                 }),
                 React.createElement(
                     'datalist',
-                    { id: listName },
+                    { id: listName, value: this.props.value },
                     options
                 ),
-                React.createElement(_inputmessage2.default, { message: this.state.message || this.props.message,
+                React.createElement(_inputmessage2.default, { message: this.props.message,
                     messageContainerClass: this.props.messageContainerClass,
-                    status: this.state.status,
-                    className: this.state.messageClassName
+                    status: this.props.status,
+                    className: this.props.messageClassName
                 })
             )
         );
@@ -275,22 +261,41 @@ var Checkout = React.createClass({
     getInitialState: function getInitialState() {
         return {
             sameasbilling: false,
+            fname: {
+                value: '',
+                message: '',
+                status: ''
+            },
             email1: {
-                value: "",
-                emailsMatch: "",
-                message: "",
-                status: ""
+                value: '',
+                emailsMatch: '',
+                message: '',
+                status: ''
             },
             email2: {
-                value: "",
-                emailsMatch: "",
-                message: "",
-                status: ""
+                value: '',
+                emailsMatch: '',
+                message: '',
+                status: ''
             },
-            credittype: ['Visa', 'American Express', 'Mastercard', 'Discover'],
-            showBillingDetails: false,
-            showBillingAddress: false
-
+            credittypes: ['Visa', 'American Express', 'Mastercard', 'Discover'],
+            credittype: {
+                value: '',
+                message: '',
+                status: ''
+            },
+            creditcardnumber: {
+                value: ''
+            },
+            cvc: {
+                value: ''
+            },
+            expirationdate: {
+                value: ''
+            },
+            progress: 0,
+            showBillingAddress: false,
+            showBillingDetails: false
         };
     },
     toggleSameAsBilling: function toggleSameAsBilling() {
@@ -298,6 +303,7 @@ var Checkout = React.createClass({
         this.setState({ sameasbilling: sameasbilling });
     },
     handleChange: function handleChange(event) {
+
         var newState = this.state;
 
         // Set attribute base on field name
@@ -306,7 +312,7 @@ var Checkout = React.createClass({
         };
 
         this.setState(newState);
-        console.log(this.state);
+        this.isSectionOneComplete();
     },
     handleEmailChange: function handleEmailChange(event) {
         this.handleChange(event);
@@ -325,6 +331,46 @@ var Checkout = React.createClass({
             email2: email2
         });
     },
+    handleCreditCardChange: function handleCreditCardChange(event) {
+
+        this.handleChange(event);
+
+        var validCreditCard = this.state.creditcardnumber.value !== '' && this.state.creditcardnumber.value.length >= 13 && this.state.creditcardnumber.value.length <= 19;
+
+        var creditcardnumber = this.state.creditcardnumber;
+        var message = validCreditCard ? '' : 'Invalid Credit Card';
+        var status = validCreditCard ? 'message-success' : 'message-fail';
+
+        var creditcardStatus = {
+            message: message,
+            status: status
+        };
+
+        creditcardnumber = Object.assign(creditcardnumber, creditcardStatus);
+
+        this.setState({ creditcardnumber: creditcardnumber });
+    },
+    isSectionOneComplete: function isSectionOneComplete() {
+        var showBillingDetails = this.state.email1.value !== '' && this.state.email2.value !== '' && this.state.email2.emailsMatch === true;
+        if (showBillingDetails) {
+            this.setProgress(33);
+        }
+        this.setState({
+            showBillingDetails: showBillingDetails
+        });
+    },
+    isSectionTwoComplete: function isSectionTwoComplete() {
+        var showBillingAddress = this.state.email1.value !== '' && this.state.email2.value !== '' && this.state.email2.emailsMatch === true;
+        if (showBillingAddress) {
+            this.setProgress(66);
+        }
+        this.setState({
+            showBillingAddress: showBillingAddress
+        });
+    },
+    setProgress: function setProgress(progress) {
+        this.setState({ progress: progress });
+    },
     emailsMatch: function emailsMatch(firstEmail, secondEmail) {
         var emailsMatch = firstEmail === secondEmail;
         var message = emailsMatch ? 'Passwords Match' : 'Passwords do not Match';
@@ -337,6 +383,7 @@ var Checkout = React.createClass({
         };
     },
     render: function render() {
+
         return React.createElement(
             'section',
             null,
@@ -384,7 +431,7 @@ var Checkout = React.createClass({
                     React.createElement(
                         'div',
                         { className: 'row' },
-                        React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname', placeholder: 'John Doe', autoComplete: 'name', onChange: this.handleChange, value: this.state.fname }),
+                        React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname', placeholder: 'John Doe', autoComplete: 'name', onChange: this.handleChange, value: this.state.fname.value }),
                         React.createElement(_input2.default, { type: 'email',
                             label: 'Email',
                             name: 'email1',
@@ -409,7 +456,7 @@ var Checkout = React.createClass({
                     React.createElement(_input2.default, { type: 'checkbox', label: 'Put me on the mailing list?', inputContainerClass: 'checkbox full', name: 'mailinglist' }),
                     React.createElement(
                         _section2.default,
-                        { show: this.state.showBillingDetails },
+                        { show: !this.state.showBillingDetails },
                         React.createElement(
                             'div',
                             { className: 'row' },
@@ -418,19 +465,36 @@ var Checkout = React.createClass({
                                 null,
                                 'Credit Card Details'
                             ),
-                            React.createElement(_input2.default, { type: 'number', label: 'Credit Card Number', name: 'creditcard', inputContainerClass: 'half mobile-full mobile-last', placeholder: '#### #### #### ####', autoComplete: 'cc-number' }),
-                            React.createElement(_input2.default, { type: 'date', label: 'Expiration Date', name: 'expirationdate', inputContainerClass: 'quarter mobile-half' }),
-                            React.createElement(_input2.default, { type: 'number', label: 'CVC', name: 'cvc', placeholder: '777', maxLength: '3', inputContainerClass: 'quarter mobile-half last' })
+                            React.createElement(_input2.default, { type: 'number', label: 'Credit Card Number', name: 'creditcardnumber',
+                                inputContainerClass: 'half mobile-full mobile-last',
+                                onChange: this.handleCreditCardChange,
+                                value: this.state.creditcardnumber.value,
+                                placeholder: '#### #### #### ####',
+                                minLength: '13',
+                                maxLength: '19',
+                                value: this.state.creditcardnumber.value,
+                                status: this.state.creditcardnumber.status,
+                                message: this.state.creditcardnumber.message,
+                                autoComplete: 'cc-number' }),
+                            React.createElement(_input2.default, { type: 'date', label: 'Expiration Date',
+                                name: 'expirationdate', inputContainerClass: 'quarter mobile-half',
+                                onChange: this.handleChange, value: this.state.expirationdate.value }),
+                            React.createElement(_input2.default, { type: 'number', label: 'CVC', name: 'cvc',
+                                placeholder: '777', maxLength: '3',
+                                inputContainerClass: 'quarter mobile-half last',
+                                onChange: this.handleChange, value: this.state.cvc.value })
                         ),
                         React.createElement(
                             'div',
                             { className: 'row' },
-                            React.createElement(_inputDatalist2.default, { type: 'text', label: 'Credit Card Type', placeholder: 'Visa', name: 'credittype', options: this.state.credittype, inputContainerClass: 'quarter mobile-half' })
+                            React.createElement(_inputDatalist2.default, { type: 'text', label: 'Credit Card Type', placeholder: 'Visa',
+                                name: 'credittype', options: this.state.credittypes,
+                                value: this.state.credittype.value, inputContainerClass: 'quarter mobile-half' })
                         )
                     ),
                     React.createElement(
                         _section2.default,
-                        { show: this.state.showBillingDetails },
+                        { show: this.state.showBillingAddress },
                         React.createElement(
                             'h3',
                             null,
@@ -466,7 +530,7 @@ var Checkout = React.createClass({
                         ),
                         React.createElement(_input2.default, { type: 'submit', value: 'Submit', className: 'btn btn-primary' })
                     ),
-                    React.createElement(_progressbar2.default, null)
+                    React.createElement(_progressbar2.default, { progress: this.state.progress })
                 )
             )
         );
