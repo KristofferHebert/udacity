@@ -187,9 +187,7 @@ var Bar = React.createClass({
     },
     render: function render() {
         var width = this.props.progress + '%';
-        var progressPosition = {
-            width: width
-        };
+        var progressPosition = { width: width };
         var status = width !== '100%' ? width + ' complete' : 'Complete!';
 
         return React.createElement(
@@ -401,7 +399,7 @@ var Checkout = React.createClass({
                             label: 'Confirm Email',
                             name: 'email2',
                             placeholder: 'johndoe@gmail.com',
-                            inputContainerClass: 'half',
+                            inputContainerClass: 'half last',
                             onChange: this.handleEmailChange,
                             value: this.state.email2.value,
                             status: this.state.email2.status,

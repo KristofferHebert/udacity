@@ -6,9 +6,7 @@ const Bar = React.createClass({
     },
     render(){
         let width = this.props.progress + '%'
-        let progressPosition = {
-            width: width
-        }
+        let progressPosition = { width }
         let status = (width !== '100%') ? width + ' complete' : 'Complete!'
 
         return (
