@@ -48,6 +48,9 @@ const Checkout = React.createClass({
                 expirationdate: {
                     value: ''
                 },
+                address1:{
+                    value: ''
+                },
                 progress: 0,
                 showBillingAddress: false,
                 showBillingDetails: false
@@ -68,7 +71,7 @@ const Checkout = React.createClass({
 
             this.setState(newState)
             this.isSectionOneComplete()
-
+            this.isSectionTwoComplete()
     },
     handleEmailChange(event){
             this.handleChange(event)
@@ -108,9 +111,11 @@ const Checkout = React.createClass({
         creditcardnumber = Object.assign(creditcardnumber, creditcardStatus)
 
         this.setState({ creditcardnumber })
+        this.isSectionTwoComplete()
+
     },
     isSectionOneComplete(){
-        let showBillingDetails = (this.state.email1.value !== '' && this.state.email2.value !== '' && this.state.email2.emailsMatch === true)
+        let showBillingDetails = ( this.state.fname.value !== '' && this.state.email1.value !== '' && this.state.email2.value !== '' && this.state.email2.emailsMatch === true)
         if(showBillingDetails){
             this.setProgress(33)
         }
@@ -119,7 +124,7 @@ const Checkout = React.createClass({
         })
     },
     isSectionTwoComplete(){
-        let showBillingAddress = (this.state.email1.value !== '' && this.state.email2.value !== '' && this.state.email2.emailsMatch === true)
+        let showBillingAddress = (this.state.creditcardnumber.value !== '' && this.state.creditcardnumber.message == '' && this.state.expirationdate.value !== '' && this.state.cvc.value !== '' && this.state.credittype.value !== '')
         if(showBillingAddress){
             this.setProgress(66)
         }
@@ -157,7 +162,12 @@ const Checkout = React.createClass({
                     <form>
                         <h3>About you</h3>
                         <div className="row">
-                            <Input type="text" label="Full Name" name="fname" placeholder="John Doe" autoComplete="name" onChange={this.handleChange} value={this.state.fname.value} />
+                            <Input type="text" label="Full Name" name="fname"
+                                placeholder="John Doe"
+                                autoComplete="name"
+                                onChange={this.handleChange}
+                                value={this.state.fname.value}
+                                required={true} />
                             <Input type="email"
                                 label="Email"
                                 name="email1"
@@ -167,7 +177,9 @@ const Checkout = React.createClass({
                                 value={this.state.email1.value}
                                 status={this.state.email1.status}
                                 message={this.state.email1.message}
-                                autoComplete="email" />
+                                autoComplete="email"
+                                required={true}
+                                />
                             <Input type="email"
                                 label="Confirm Email"
                                 name="email2"
@@ -177,10 +189,12 @@ const Checkout = React.createClass({
                                 value={this.state.email2.value}
                                 status={this.state.email2.status}
                                 message={this.state.email2.message}
-                                autoComplete="email" />
+                                autoComplete="email"
+                                required={true}
+                                />
                         </div>
                         <Input type="checkbox" label="Put me on the mailing list?" inputContainerClass="checkbox full" name="mailinglist"  />
-                        <Section show={!this.state.showBillingDetails}>
+                        <Section show={this.state.showBillingDetails}>
                             <div className="row">
                                 <h3>Credit Card Details</h3>
                                 <Input type="number" label="Credit Card Number" name="creditcardnumber"
@@ -193,24 +207,28 @@ const Checkout = React.createClass({
                                     value={this.state.creditcardnumber.value}
                                     status={this.state.creditcardnumber.status}
                                     message={this.state.creditcardnumber.message}
+                                    required={true}
                                     autoComplete="cc-number" />
                                 <Input type="date" label="Expiration Date"
                                     name="expirationdate" inputContainerClass="quarter mobile-half"
-                                    onChange={this.handleChange} value={this.state.expirationdate.value} />
+                                    onChange={this.handleChange} value={this.state.expirationdate.value}
+                                    required={true}/>
                                 <Input type="number" label="CVC" name="cvc"
                                     placeholder="777" maxLength="3"
                                     inputContainerClass="quarter mobile-half last"
-                                    onChange={this.handleChange} value={this.state.cvc.value} />
+                                    onChange={this.handleChange} value={this.state.cvc.value}
+                                    required={true}/>
                             </div>
                             <div className="row">
                                 <InputDatalist type="text" label="Credit Card Type" placeholder="Visa"
                                     name="credittype" options={this.state.credittypes}
+                                    onChange={this.handleChange}
                                     value={this.state.credittype.value} inputContainerClass="quarter mobile-half" />
                             </div>
                         </Section>
                         <Section show={this.state.showBillingAddress}>
                             <h3>Billing Address</h3>
-                            <Input type="text" label="Address 1" name="address1" placeholder="123 Sesame Street" autoComplete="address" />
+                            <Input type="text" label="Address 1" name="address1" placeholder="123 Sesame Street" autoComplete="address" onChange={this.handleChange} value={this.state.address1.value} required={true}/>
                             <Input type="text" label="Address 2" name="address2" placeholder="APT #123" autoComplete="address" />
 
                             <div className="row">

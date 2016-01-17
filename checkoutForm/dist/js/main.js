@@ -28,6 +28,8 @@ var Input = React.createClass({
         };
     },
     render: function render() {
+        var className = this.props.value !== '' ? 'dirty ' + this.props.className : this.props.className;
+
         return React.createElement(
             'div',
             { className: this.props.inputContainerClass },
@@ -38,14 +40,14 @@ var Input = React.createClass({
                 React.createElement('input', { type: this.props.type,
                     id: this.props.name,
                     name: this.props.name,
-                    className: this.props.className,
+                    className: className,
                     onChange: this.props.onChange,
                     value: this.props.value,
                     placeholder: this.props.placeholder,
                     autoComplete: this.props.autoComplete,
                     minLength: this.props.minLength,
                     maxLength: this.props.maxLength,
-                    required: this.props.isRequired,
+                    required: this.props.required,
                     autofocus: this.props.isAutoFocused }),
                 React.createElement(_inputmessage2.default, { message: this.props.message,
                     messageContainerClass: this.props.messageContainerClass,
@@ -293,6 +295,9 @@ var Checkout = React.createClass({
             expirationdate: {
                 value: ''
             },
+            address1: {
+                value: ''
+            },
             progress: 0,
             showBillingAddress: false,
             showBillingDetails: false
@@ -313,6 +318,7 @@ var Checkout = React.createClass({
 
         this.setState(newState);
         this.isSectionOneComplete();
+        this.isSectionTwoComplete();
     },
     handleEmailChange: function handleEmailChange(event) {
         this.handleChange(event);
@@ -349,9 +355,10 @@ var Checkout = React.createClass({
         creditcardnumber = Object.assign(creditcardnumber, creditcardStatus);
 
         this.setState({ creditcardnumber: creditcardnumber });
+        this.isSectionTwoComplete();
     },
     isSectionOneComplete: function isSectionOneComplete() {
-        var showBillingDetails = this.state.email1.value !== '' && this.state.email2.value !== '' && this.state.email2.emailsMatch === true;
+        var showBillingDetails = this.state.fname.value !== '' && this.state.email1.value !== '' && this.state.email2.value !== '' && this.state.email2.emailsMatch === true;
         if (showBillingDetails) {
             this.setProgress(33);
         }
@@ -360,7 +367,7 @@ var Checkout = React.createClass({
         });
     },
     isSectionTwoComplete: function isSectionTwoComplete() {
-        var showBillingAddress = this.state.email1.value !== '' && this.state.email2.value !== '' && this.state.email2.emailsMatch === true;
+        var showBillingAddress = this.state.creditcardnumber.value !== '' && this.state.creditcardnumber.message == '' && this.state.expirationdate.value !== '' && this.state.cvc.value !== '' && this.state.credittype.value !== '';
         if (showBillingAddress) {
             this.setProgress(66);
         }
@@ -431,7 +438,12 @@ var Checkout = React.createClass({
                     React.createElement(
                         'div',
                         { className: 'row' },
-                        React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname', placeholder: 'John Doe', autoComplete: 'name', onChange: this.handleChange, value: this.state.fname.value }),
+                        React.createElement(_input2.default, { type: 'text', label: 'Full Name', name: 'fname',
+                            placeholder: 'John Doe',
+                            autoComplete: 'name',
+                            onChange: this.handleChange,
+                            value: this.state.fname.value,
+                            required: true }),
                         React.createElement(_input2.default, { type: 'email',
                             label: 'Email',
                             name: 'email1',
@@ -441,7 +453,9 @@ var Checkout = React.createClass({
                             value: this.state.email1.value,
                             status: this.state.email1.status,
                             message: this.state.email1.message,
-                            autoComplete: 'email' }),
+                            autoComplete: 'email',
+                            required: true
+                        }),
                         React.createElement(_input2.default, { type: 'email',
                             label: 'Confirm Email',
                             name: 'email2',
@@ -451,12 +465,14 @@ var Checkout = React.createClass({
                             value: this.state.email2.value,
                             status: this.state.email2.status,
                             message: this.state.email2.message,
-                            autoComplete: 'email' })
+                            autoComplete: 'email',
+                            required: true
+                        })
                     ),
                     React.createElement(_input2.default, { type: 'checkbox', label: 'Put me on the mailing list?', inputContainerClass: 'checkbox full', name: 'mailinglist' }),
                     React.createElement(
                         _section2.default,
-                        { show: !this.state.showBillingDetails },
+                        { show: this.state.showBillingDetails },
                         React.createElement(
                             'div',
                             { className: 'row' },
@@ -475,20 +491,24 @@ var Checkout = React.createClass({
                                 value: this.state.creditcardnumber.value,
                                 status: this.state.creditcardnumber.status,
                                 message: this.state.creditcardnumber.message,
+                                required: true,
                                 autoComplete: 'cc-number' }),
                             React.createElement(_input2.default, { type: 'date', label: 'Expiration Date',
                                 name: 'expirationdate', inputContainerClass: 'quarter mobile-half',
-                                onChange: this.handleChange, value: this.state.expirationdate.value }),
+                                onChange: this.handleChange, value: this.state.expirationdate.value,
+                                required: true }),
                             React.createElement(_input2.default, { type: 'number', label: 'CVC', name: 'cvc',
                                 placeholder: '777', maxLength: '3',
                                 inputContainerClass: 'quarter mobile-half last',
-                                onChange: this.handleChange, value: this.state.cvc.value })
+                                onChange: this.handleChange, value: this.state.cvc.value,
+                                required: true })
                         ),
                         React.createElement(
                             'div',
                             { className: 'row' },
                             React.createElement(_inputDatalist2.default, { type: 'text', label: 'Credit Card Type', placeholder: 'Visa',
                                 name: 'credittype', options: this.state.credittypes,
+                                onChange: this.handleChange,
                                 value: this.state.credittype.value, inputContainerClass: 'quarter mobile-half' })
                         )
                     ),
@@ -500,7 +520,7 @@ var Checkout = React.createClass({
                             null,
                             'Billing Address'
                         ),
-                        React.createElement(_input2.default, { type: 'text', label: 'Address 1', name: 'address1', placeholder: '123 Sesame Street', autoComplete: 'address' }),
+                        React.createElement(_input2.default, { type: 'text', label: 'Address 1', name: 'address1', placeholder: '123 Sesame Street', autoComplete: 'address', onChange: this.handleChange, value: this.state.address1.value, required: true }),
                         React.createElement(_input2.default, { type: 'text', label: 'Address 2', name: 'address2', placeholder: 'APT #123', autoComplete: 'address' }),
                         React.createElement(
                             'div',

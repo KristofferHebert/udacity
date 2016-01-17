@@ -50,7 +50,7 @@ input:focus {
     border: 1px solid rgba(81, 203, 238, 1);
 }
 
-input:invalid {
+input.dirty:invalid {
     border-color: red;
     box-shadow: 0 0 3px red;
     border: 1px solid red;

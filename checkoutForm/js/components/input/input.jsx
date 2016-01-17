@@ -17,6 +17,8 @@ const Input = React.createClass({
             }
         },
         render(){
+            let className = (this.props.value !== '') ? 'dirty ' + this.props.className : this.props.className
+
             return (
                 <div className={this.props.inputContainerClass}>
                     <label htmlFor={this.props.name}>
@@ -24,14 +26,14 @@ const Input = React.createClass({
                         <input type={this.props.type}
                             id={this.props.name}
                             name={this.props.name}
-                            className={this.props.className}
+                            className={className}
                             onChange={this.props.onChange}
                             value={this.props.value}
                             placeholder={this.props.placeholder}
                             autoComplete={this.props.autoComplete}
                             minLength={this.props.minLength}
                             maxLength={this.props.maxLength}
-                            required={this.props.isRequired}
+                            required={this.props.required}
                             autofocus={this.props.isAutoFocused} />
                     <InputMessage message={this.props.message}
                         messageContainerClass={this.props.messageContainerClass}
