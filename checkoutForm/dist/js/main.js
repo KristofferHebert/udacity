@@ -298,6 +298,33 @@ var Checkout = React.createClass({
             address1: {
                 value: ''
             },
+            address2: {
+                value: ''
+            },
+            city: {
+                value: ''
+            },
+            state: {
+                value: ''
+            },
+            zipcode: {
+                value: ''
+            },
+            shippingaddress1: {
+                value: ''
+            },
+            shippingaddress2: {
+                value: ''
+            },
+            shippingcity: {
+                value: ''
+            },
+            shippingstate: {
+                value: ''
+            },
+            shippingzipcode: {
+                value: ''
+            },
             progress: 0,
             showBillingAddress: false,
             showBillingDetails: false
@@ -319,6 +346,7 @@ var Checkout = React.createClass({
         this.setState(newState);
         this.isSectionOneComplete();
         this.isSectionTwoComplete();
+        this.formIsComplete();
     },
     handleEmailChange: function handleEmailChange(event) {
         this.handleChange(event);
@@ -336,6 +364,8 @@ var Checkout = React.createClass({
             email1: email1,
             email2: email2
         });
+
+        this.isSectionOneComplete();
     },
     handleCreditCardChange: function handleCreditCardChange(event) {
 
@@ -374,6 +404,14 @@ var Checkout = React.createClass({
         this.setState({
             showBillingAddress: showBillingAddress
         });
+    },
+    formIsComplete: function formIsComplete() {
+        var formIsComplete = this.state.address1.value != '' && this.state.address2.value != '' && this.state.city.value != '' && this.state.state.value != '' && this.state.zipcode.value != '';
+
+        if (formIsComplete) {
+            this.setProgress(100);
+            this.setState({ formIsComplete: formIsComplete });
+        }
     },
     setProgress: function setProgress(progress) {
         this.setState({ progress: progress });
@@ -521,13 +559,13 @@ var Checkout = React.createClass({
                             'Billing Address'
                         ),
                         React.createElement(_input2.default, { type: 'text', label: 'Address 1', name: 'address1', placeholder: '123 Sesame Street', autoComplete: 'address', onChange: this.handleChange, value: this.state.address1.value, required: true }),
-                        React.createElement(_input2.default, { type: 'text', label: 'Address 2', name: 'address2', placeholder: 'APT #123', autoComplete: 'address' }),
+                        React.createElement(_input2.default, { type: 'text', label: 'Address 2', name: 'address2', placeholder: 'APT #123', autoComplete: 'address', onChange: this.handleChange, value: this.state.address2.value, required: true }),
                         React.createElement(
                             'div',
                             { className: 'row' },
-                            React.createElement(_input2.default, { type: 'text', label: 'City', name: 'city', autoComplete: 'city', placeholder: 'Smallville', inputContainerClass: 'half' }),
-                            React.createElement(_input2.default, { type: 'text', label: 'State', name: 'state', autoComplete: 'state', placeholder: 'KA', inputContainerClass: 'quarter' }),
-                            React.createElement(_input2.default, { type: 'number', label: 'Zip code', name: 'zipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last' })
+                            React.createElement(_input2.default, { type: 'text', label: 'City', name: 'city', autoComplete: 'city', placeholder: 'Smallville', inputContainerClass: 'half', onChange: this.handleChange, value: this.state.city.value, required: true }),
+                            React.createElement(_input2.default, { type: 'text', label: 'State', name: 'state', autoComplete: 'state', placeholder: 'KA', inputContainerClass: 'quarter', onChange: this.handleChange, value: this.state.state.value, required: true }),
+                            React.createElement(_input2.default, { type: 'number', label: 'Zip code', name: 'zipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last', onChange: this.handleChange, value: this.state.zipcode.value, required: true })
                         ),
                         React.createElement(
                             'h3',
@@ -538,17 +576,21 @@ var Checkout = React.createClass({
                         React.createElement(
                             _If2.default,
                             { logic: !this.state.sameasbilling },
-                            React.createElement(_input2.default, { type: 'text', label: 'Address 1', name: 'shippingaddress1', placeholder: '123 Sesame Street', autoComplete: 'address' }),
-                            React.createElement(_input2.default, { type: 'text', label: 'Address 2', name: 'shippingaddress2', placeholder: 'APT #123', autoComplete: 'address' }),
+                            React.createElement(_input2.default, { type: 'text', label: 'Address 1', name: 'shippingaddress1', placeholder: '123 Sesame Street', autoComplete: 'address', onChange: this.handleChange, value: this.state.shippingaddress1.value }),
+                            React.createElement(_input2.default, { type: 'text', label: 'Address 2', name: 'shippingaddress2', placeholder: 'APT #123', autoComplete: 'address', onChange: this.handleChange, value: this.state.shippingaddress2.value }),
                             React.createElement(
                                 'div',
                                 { className: 'row' },
-                                React.createElement(_input2.default, { type: 'text', label: 'City', name: 'shippingcity', autoComplete: 'city', placeholder: 'Smallville', inputContainerClass: 'half' }),
-                                React.createElement(_input2.default, { type: 'text', label: 'State', name: 'shippingstate', autoComplete: 'state', placeholder: 'KA', inputContainerClass: 'quarter' }),
-                                React.createElement(_input2.default, { type: 'number', label: 'Zip code', name: 'shippingzipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last' })
+                                React.createElement(_input2.default, { type: 'text', label: 'City', name: 'shippingcity', autoComplete: 'city', placeholder: 'Smallville', inputContainerClass: 'half', onChange: this.handleChange, value: this.state.shippingcity.value }),
+                                React.createElement(_input2.default, { type: 'text', label: 'State', name: 'shippingstate', autoComplete: 'state', placeholder: 'KA', inputContainerClass: 'quarter', onChange: this.handleChange, value: this.state.shippingstate.value }),
+                                React.createElement(_input2.default, { type: 'number', label: 'Zip code', name: 'shippingzipcode', autoComplete: 'zipcode', placeholder: '67524', inputContainerClass: 'quarter last', onChange: this.handleChange, value: this.state.shippingzipcode.value })
                             )
                         ),
-                        React.createElement(_input2.default, { type: 'submit', value: 'Submit', className: 'btn btn-primary' })
+                        React.createElement(
+                            _If2.default,
+                            { logic: this.state.formIsComplete },
+                            React.createElement(_input2.default, { type: 'submit', value: 'Submit', className: 'btn btn-primary' })
+                        )
                     ),
                     React.createElement(_progressbar2.default, { progress: this.state.progress })
                 )

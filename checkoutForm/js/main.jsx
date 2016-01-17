@@ -51,6 +51,33 @@ const Checkout = React.createClass({
                 address1:{
                     value: ''
                 },
+                address2:{
+                    value: ''
+                },
+                city:{
+                    value: ''
+                },
+                state: {
+                    value: ''
+                },
+                zipcode: {
+                    value: ''
+                },
+                shippingaddress1:{
+                    value: ''
+                },
+                shippingaddress2:{
+                    value: ''
+                },
+                shippingcity:{
+                    value: ''
+                },
+                shippingstate: {
+                    value: ''
+                },
+                shippingzipcode: {
+                    value: ''
+                },
                 progress: 0,
                 showBillingAddress: false,
                 showBillingDetails: false
@@ -72,6 +99,8 @@ const Checkout = React.createClass({
             this.setState(newState)
             this.isSectionOneComplete()
             this.isSectionTwoComplete()
+            this.formIsComplete()
+
     },
     handleEmailChange(event){
             this.handleChange(event)
@@ -90,6 +119,7 @@ const Checkout = React.createClass({
                 email2: email2
             })
 
+            this.isSectionOneComplete()
 
 
     },
@@ -131,6 +161,14 @@ const Checkout = React.createClass({
         this.setState({
             showBillingAddress: showBillingAddress,
         })
+    },
+    formIsComplete(){
+        var formIsComplete = (this.state.address1.value != '' && this.state.address2.value != '' && this.state.city.value != ''  && this.state.state.value != '' && this.state.zipcode.value != '')
+
+        if(formIsComplete){
+            this.setProgress(100)
+            this.setState({formIsComplete})
+        }
     },
     setProgress(progress){
         this.setState({progress: progress})
@@ -229,27 +267,29 @@ const Checkout = React.createClass({
                         <Section show={this.state.showBillingAddress}>
                             <h3>Billing Address</h3>
                             <Input type="text" label="Address 1" name="address1" placeholder="123 Sesame Street" autoComplete="address" onChange={this.handleChange} value={this.state.address1.value} required={true}/>
-                            <Input type="text" label="Address 2" name="address2" placeholder="APT #123" autoComplete="address" />
+                            <Input type="text" label="Address 2" name="address2" placeholder="APT #123" autoComplete="address" onChange={this.handleChange} value={this.state.address2.value} required={true}/>
 
                             <div className="row">
-                                <Input type="text" label="City" name="city" autoComplete="city" placeholder="Smallville" inputContainerClass="half" />
-                                <Input type="text" label="State" name="state" autoComplete="state" placeholder="KA" inputContainerClass="quarter" />
-                                <Input type="number" label="Zip code" name="zipcode" autoComplete="zipcode" placeholder="67524" inputContainerClass="quarter last" />
+                                <Input type="text" label="City" name="city" autoComplete="city" placeholder="Smallville" inputContainerClass="half" onChange={this.handleChange} value={this.state.city.value} required={true}/>
+                                <Input type="text" label="State" name="state" autoComplete="state" placeholder="KA" inputContainerClass="quarter" onChange={this.handleChange} value={this.state.state.value} required={true}/>
+                                <Input type="number" label="Zip code" name="zipcode" autoComplete="zipcode" placeholder="67524" inputContainerClass="quarter last" onChange={this.handleChange} value={this.state.zipcode.value} required={true}/>
                             </div>
 
                             <h3>Shipping Address</h3>
                             <Input type="checkbox" label="Same as Billing Address?" inputContainerClass="checkbox full" name="sameasbilling" onChange={this.toggleSameAsBilling}/>
                             <If logic={!this.state.sameasbilling}>
-                                <Input type="text" label="Address 1" name="shippingaddress1" placeholder="123 Sesame Street" autoComplete="address"/>
-                                <Input type="text" label="Address 2" name="shippingaddress2" placeholder="APT #123" autoComplete="address"/>
+                                <Input type="text" label="Address 1" name="shippingaddress1" placeholder="123 Sesame Street" autoComplete="address" onChange={this.handleChange} value={this.state.shippingaddress1.value} />
+                                <Input type="text" label="Address 2" name="shippingaddress2" placeholder="APT #123" autoComplete="address" onChange={this.handleChange} value={this.state.shippingaddress2.value} />
 
                                 <div className="row">
-                                    <Input type="text" label="City" name="shippingcity" autoComplete="city" placeholder="Smallville" inputContainerClass="half"/>
-                                    <Input type="text" label="State" name="shippingstate" autoComplete="state" placeholder="KA" inputContainerClass="quarter"/>
-                                    <Input type="number" label="Zip code" name="shippingzipcode" autoComplete="zipcode" placeholder="67524" inputContainerClass="quarter last"/>
+                                    <Input type="text" label="City" name="shippingcity" autoComplete="city" placeholder="Smallville" inputContainerClass="half"  onChange={this.handleChange} value={this.state.shippingcity.value} />
+                                    <Input type="text" label="State" name="shippingstate" autoComplete="state" placeholder="KA" inputContainerClass="quarter"  onChange={this.handleChange} value={this.state.shippingstate.value} />
+                                    <Input type="number" label="Zip code" name="shippingzipcode" autoComplete="zipcode" placeholder="67524" inputContainerClass="quarter last"  onChange={this.handleChange} value={this.state.shippingzipcode.value} />
                                 </div>
                             </If>
-                            <Input type="submit" value="Submit" className="btn btn-primary"/>
+                            <If logic={this.state.formIsComplete}>
+                                <Input type="submit" value="Submit" className="btn btn-primary"/>
+                            </If>
                         </Section>
                         <ProgressBar progress={this.state.progress}/>
                     </form>
